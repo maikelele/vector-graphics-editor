@@ -1,11 +1,11 @@
 #pragma once
 #include "iostream"
 #include "vector"
+#include "Item.h"
 
 class GlobalStorage
 {
 public:
-	 std::vector<std::vector<double>> items; // vector of vectors containing points that define objects to draw 
-	// TODO: instead of double ^ it should be a struct or class Point with x and y variables
+	 std::vector<Item> items; // vector of Items containing points(wxPoint) and colour that define objects to draw 
 };
 

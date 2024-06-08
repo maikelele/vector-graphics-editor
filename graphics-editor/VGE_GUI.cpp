@@ -6,18 +6,18 @@ VGE_GUI::VGE_GUI( wxWindow* parent )
 GUI( parent )
 {
 	store = std::make_shared<GlobalStorage>();
-	store->objectStore.push_back("gui");
+	//store->objectStore.push_back("gui");
 }
 
 void VGE_GUI::onFileLoad( wxCommandEvent& event )
 {
 // TODO: Implement onFileLoad
-	wxLogMessage(wxString(store->objectStore[0]));
+	//wxLogMessage(wxString(store->objectStore[0]));
 }
 
 void VGE_GUI::onFileSave( wxCommandEvent& event )
 {
-	Repaint();
+	//Repaint();
 }
 
 void VGE_GUI::onColourPickerChange( wxColourPickerEvent& event )
@@ -58,6 +58,7 @@ void VGE_GUI::onInscPolyClick( wxCommandEvent& event )
 void VGE_GUI::Repaint() {
 	wxClientDC _dc(m_panel1);
 	wxBufferedDC dc(&_dc);
+	wxPoint(1, 4);
 
 	Panel panel = Panel(store);
 	panel.Draw(&dc);
