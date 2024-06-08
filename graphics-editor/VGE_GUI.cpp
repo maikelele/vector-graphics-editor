@@ -5,7 +5,7 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	GUI(parent)
 {
 	store = std::make_shared<GlobalStorage>();
-	//store->objectStore.push_back("gui");
+	simpleLine = SimpleLine(store);
 }
 
 void VGE_GUI::onPanelClick(wxMouseEvent& event)
@@ -13,11 +13,12 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 	if (!store->editMode) return;
 	switch (store->editID) {
 	case 0:
-		wxLogMessage("jej");
+		simpleLine.handleClick(event);
 		break;
 	default:
 		wxLogMessage("uhh?");
 	}
+	Repaint();
 }
 
 void VGE_GUI::onFileLoad(wxCommandEvent& event)
@@ -33,16 +34,24 @@ void VGE_GUI::onFileSave(wxCommandEvent& event)
 
 void VGE_GUI::onColourPickerChange(wxColourPickerEvent& event)
 {
-	// TODO: Implement onColourPickerChange
+	store->currentColor = event.GetColour();
 }
 
 void VGE_GUI::onLineClick(wxCommandEvent& event)
 {
-	if (store->editMode) return;
+	if (store->editMode) {
+		if (store->editID == 0) {
+			store->editMode = false;
+			lineButton->SetBackgroundColour(wxNullColour);
+			lineButton->Refresh();
+		}
+		return;
+	}
 	store->editMode = true;
 	store->editID = 0;
+	lineButton->SetBackgroundColour(activeColor);
+	lineButton->Refresh();
 
-	//change some background colors or some shit
 }
 
 void VGE_GUI::onBezierClick(wxCommandEvent& event)
@@ -75,7 +84,6 @@ void VGE_GUI::Repaint()
 {
 	wxClientDC _dc(m_panel1);
 	wxBufferedDC dc(&_dc);
-	wxPoint(1, 4);
 
 	Panel panel = Panel(store);
 	panel.Draw(&dc);

@@ -7,17 +7,20 @@ class Item
 public:
 	Item() {
 		points = std::vector<wxPoint>();
-		colour = "";
+		color = "";
+		id = 0;
 	}
-	Item(std::vector<wxPoint> _points, std::string _colour) {
+	Item(std::vector<wxPoint> _points, wxColor _color, int _id) {
 		points = _points;
-		colour = _colour;
+		color = _color;
+		id = _id;
 	}
 	void Add(wxPoint point) {
 		points.push_back(point);
 	}
 
-	std::string colour;
+	wxColor color;
 	std::vector<wxPoint> points;
+	int id;
 };
 
