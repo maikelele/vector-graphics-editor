@@ -128,6 +128,7 @@
                 <property name="window_extra_style"></property>
                 <property name="window_name"></property>
                 <property name="window_style">wxTAB_TRAVERSAL</property>
+                <event name="OnLeftDown">onPanelClick</event>
               </object>
             </object>
           </object>

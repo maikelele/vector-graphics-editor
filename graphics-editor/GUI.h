@@ -51,6 +51,7 @@ class GUI : public wxFrame
 		wxButton* inscPolyButton;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void onPanelClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void onFileLoad( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onFileSave( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onColourPickerChange( wxColourPickerEvent& event ) { event.Skip(); }

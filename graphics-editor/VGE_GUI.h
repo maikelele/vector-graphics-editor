@@ -22,6 +22,7 @@ class VGE_GUI : public GUI
 {
 	protected:
 		// Handlers for GUI events.
+		void onPanelClick( wxMouseEvent& event );
 		void onFileLoad( wxCommandEvent& event );
 		void onFileSave( wxCommandEvent& event );
 		void onColourPickerChange( wxColourPickerEvent& event );
@@ -37,6 +38,8 @@ class VGE_GUI : public GUI
 	//// end generated class members
 		std::shared_ptr<GlobalStorage> store;
 		void Repaint();
+
+
 
 };
 
