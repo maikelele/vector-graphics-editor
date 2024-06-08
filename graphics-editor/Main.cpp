@@ -1,4 +1,4 @@
-﻿#include <wx/wxprec.h>
+﻿#include <wx/wx.h>
 #include "VGE_GUI.h"
 
 class MyApp : public wxApp {

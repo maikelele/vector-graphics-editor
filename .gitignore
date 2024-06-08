@@ -31,4 +31,6 @@
 *.out
 *.app
 /.vs
-/graphics-editor
+/graphics-editor/x64/Debug
+/graphics-editor/Debug
+/graphics-editor/.vs
