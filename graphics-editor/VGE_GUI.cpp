@@ -8,6 +8,7 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	simpleLine = SimpleLine(store);
 	bezierCurve = BezierCurve(store);
 	circle = Circle(store);
+	this->SetTitle("Vector graphics editor");
 }
 
 void VGE_GUI::onPanelClick(wxMouseEvent& event)
