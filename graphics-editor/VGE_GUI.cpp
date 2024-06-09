@@ -7,6 +7,7 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	store = std::make_shared<GlobalStorage>();
 	simpleLine = SimpleLine(store);
 	bezierCurve = BezierCurve(store);
+	circle = Circle(store);
 }
 
 void VGE_GUI::onPanelClick(wxMouseEvent& event)
@@ -18,6 +19,9 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 		break;
 	case 1:
 		bezierCurve.handleClick(event);
+		break;
+	case 2:
+		circle.handleClick(event);
 		break;
 
 	default:
@@ -79,7 +83,18 @@ void VGE_GUI::onBezierClick(wxCommandEvent& event)
 
 void VGE_GUI::onCircleClick(wxCommandEvent& event)
 {
-	// TODO: Implement onCircleClick
+	if (store->editMode) {
+		if (store->editID == 2) {
+			store->editMode = false;
+			circleButton->SetBackgroundColour(wxNullColour);
+			circleButton->Refresh();
+		}
+		return;
+	}
+	store->editMode = true;
+	store->editID = 2;
+	circleButton->SetBackgroundColour(activeColor);
+	circleButton->Refresh();
 }
 
 void VGE_GUI::onRectClick(wxCommandEvent& event)

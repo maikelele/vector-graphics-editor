@@ -14,6 +14,13 @@ wxPointList* vectorToWxPointList(std::vector<wxPoint>& pts) {
 	return pointList;
 }
 
+double pointDistance(wxPoint pt1, wxPoint pt2) {
+	int dx = pt2.x - pt1.x;
+	int dy = pt2.y - pt1.y;
+	return std::sqrt(dx * dx + dy * dy);
+}
+
+
 void Panel::Draw(wxDC* dc) {
 	dc->SetBackground(wxBrush(RGB(255, 255, 255)));
 	dc->Clear();
@@ -27,6 +34,10 @@ void Panel::Draw(wxDC* dc) {
 			break;
 		case 1:
 			dc->DrawSpline(vectorToWxPointList(item.points));
+			break;
+		case 2:
+			dc->SetBrush(*wxTRANSPARENT_BRUSH);
+			dc->DrawCircle(item.points[0], pointDistance(item.points[0], item.points[1]));
 			break;
 		}
 	}
