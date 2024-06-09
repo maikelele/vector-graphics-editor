@@ -3,13 +3,13 @@
 #include "memory"
 #include "GlobalStorage.h"
 
-class Panel
+class BezierCurve
 {
 public:
-	Panel(std::shared_ptr<GlobalStorage> s);
-	void Draw(wxDC * dc);
+	BezierCurve() = default;
+	BezierCurve(std::shared_ptr<GlobalStorage> s);
+	void handleClick(wxMouseEvent& event);
 private:
 	std::shared_ptr<GlobalStorage> store;
-	int defaultPenWidth;
 };
 

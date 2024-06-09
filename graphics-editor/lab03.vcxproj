@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BezierCurve.cpp" />
     <ClCompile Include="GlobalStorage.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="VGE_GUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BezierCurve.h" />
     <ClInclude Include="GlobalStorage.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Item.h" />

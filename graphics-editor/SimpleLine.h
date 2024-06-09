@@ -6,7 +6,7 @@
 class SimpleLine
 {
 public:
-	SimpleLine() = default;
+	SimpleLine(): count(0){};
 	SimpleLine(std::shared_ptr<GlobalStorage> s);
 	void handleClick(wxMouseEvent& event);
 private:
