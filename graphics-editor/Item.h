@@ -2,7 +2,7 @@
 #include "string"
 #include <wx/wx.h>
 
-class Item
+class  Item
 {
 public:
 	Item() {

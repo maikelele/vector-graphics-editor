@@ -39,6 +39,10 @@ void Panel::Draw(wxDC* dc) {
 			dc->SetBrush(*wxTRANSPARENT_BRUSH);
 			dc->DrawCircle(item.points[0], pointDistance(item.points[0], item.points[1]));
 			break;
+		case 3:
+			dc->SetBrush(*wxTRANSPARENT_BRUSH);
+			dc->DrawRectangle(wxRect(item.points[0], item.points[1]));
+			break;
 		}
 	}
 
