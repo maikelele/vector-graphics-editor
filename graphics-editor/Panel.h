@@ -2,6 +2,7 @@
 #include <wx/wx.h>
 #include "memory"
 #include "GlobalStorage.h"
+#include <cmath>
 
 class Panel
 {

@@ -2,11 +2,14 @@
 #include <wx/wx.h>
 #include "memory"
 #include "GlobalStorage.h"
+#include "Polygon.h"
+#include "Circle.h"
+#pragma once
 
-class Poly {
+class InscribedPolygon {
 public:
-	Poly() : count(0) {};
-	Poly(std::shared_ptr<GlobalStorage> s);
+	InscribedPolygon() : count(0) {};
+	InscribedPolygon(std::shared_ptr<GlobalStorage> s);
 	void handleClick(wxMouseEvent& event);
 
 private:
