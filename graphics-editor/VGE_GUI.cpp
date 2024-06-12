@@ -42,15 +42,96 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 	Repaint();
 }
 
-void VGE_GUI::onFileLoad(wxCommandEvent& event)
-{
-	// TODO: Implement onFileLoad
-	//wxLogMessage(wxString(store->objectStore[0]));
+void VGE_GUI::onFileLoad(wxCommandEvent& event) {
+	wxFileDialog openFileDialog(this, _("Open Data File"), "", "",
+		"Text Files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	if (openFileDialog.ShowModal() == wxID_CANCEL)
+		return;  // User cancelled the dialog
+
+	wxFileInputStream input_stream(openFileDialog.GetPath());
+	if (!input_stream.IsOk()) {
+		wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
+		return;
+	}
+
+	wxTextInputStream text_in(input_stream);
+	store->items.clear();  // Clear existing items
+
+	wxString line;
+	while (!input_stream.Eof()) {
+		line = text_in.ReadLine();  // Correctly read the full line
+		if (line.IsEmpty()) continue;
+
+		wxStringTokenizer tokenizer(line, " ");
+		Item item;
+		long id, colorRGBA;
+
+		if (tokenizer.HasMoreTokens()) {
+			tokenizer.GetNextToken().ToLong(&id);
+			item.id = static_cast<int>(id);
+		}
+
+		if (tokenizer.HasMoreTokens()) {
+			tokenizer.GetNextToken().ToLong(&colorRGBA);
+			item.color = wxColor(colorRGBA);
+		}
+
+		int countVertices = 0;
+		if (tokenizer.HasMoreTokens()) {
+			tokenizer.GetNextToken().ToInt(&countVertices);
+		}
+
+		for (int i = 0; i < countVertices; i++) {
+			if (!tokenizer.HasMoreTokens()) break;
+			wxString pointData = tokenizer.GetNextToken();
+			long x, y;
+			wxStringTokenizer pointTokenizer(pointData, ",");
+			if (pointTokenizer.HasMoreTokens()) {
+				pointTokenizer.GetNextToken().ToLong(&x);
+			}
+			if (pointTokenizer.HasMoreTokens()) {
+				pointTokenizer.GetNextToken().ToLong(&y);
+			}
+			item.points.emplace_back(x, y);
+		}
+
+		item.vertexes_count = item.points.size();  // Set vertex count
+		store->items.push_back(item);
+	}
+
+	// Trigger a redraw of the panel or frame where the items are displayed
+	Refresh(); // Assumes this method is part of a wxPanel or wxFrame class
+	Update();  // Forces an immediate repaint
 }
 
-void VGE_GUI::onFileSave(wxCommandEvent& event)
-{
-	//Repaint();
+void VGE_GUI::onFileSave(wxCommandEvent& event) {
+	wxFileDialog saveFileDialog(this, _("Save Data"), "", "",
+		"Text Files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (saveFileDialog.ShowModal() == wxID_CANCEL)
+		return;  // User cancelled the dialog
+
+	wxFile file(saveFileDialog.GetPath(), wxFile::write);
+	if (!file.IsOpened()) {
+		wxLogError("Cannot open file '%s' for writing.", saveFileDialog.GetPath());
+		return;
+	}
+
+	wxFileOutputStream output_stream(file);
+	if (!output_stream.IsOk()) {
+		wxLogError("Cannot create output stream.");
+		return;
+	}
+
+	wxTextOutputStream text_out(output_stream);  // Correct usage: Pass the output stream to the constructor
+	for (const auto& item : store->items) {
+		text_out << item.id << " "
+			<< static_cast<int>(item.color.GetRGBA()) << " "
+			<< static_cast<int>(item.points.size());  // Casting size_t to long
+		for (const auto& pt : item.points) {
+			text_out << " " << pt.x << " " << pt.y;
+		}
+		text_out << "\n";
+	}
 }
 
 void VGE_GUI::onColourPickerChange(wxColourPickerEvent& event)
