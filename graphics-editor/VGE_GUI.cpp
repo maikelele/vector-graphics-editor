@@ -10,6 +10,7 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	circle = Circle(store);
 	rectangle = Rect(store);
 	polygon = Poly(store);
+	inscrPoly = InscribedPolygon(store);
 	this->SetTitle("Vector graphics editor");
 }
 
@@ -31,6 +32,9 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 		break;
 	case 4:
 		polygon.handleClick(event);
+		break;
+	case 5:
+		inscrPoly.handleClick(event);
 		break;
 	default:
 		wxLogMessage("we shouldn't be here");
@@ -147,7 +151,7 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 		}
 	}
 	else {
-		return;  // User cancelled the dialog
+		return; 
 	}
 
 	store->editMode = true;
@@ -158,7 +162,36 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 
 void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 {
-	// TODO: Implement onInscPolyClick
+	if (store->editMode) {
+		if (store->editID == 5) {
+			store->editMode = false;
+			inscPolyButton->SetBackgroundColour(wxNullColour);
+			inscPolyButton->Refresh();
+		}
+		return;
+	}
+
+	wxTextEntryDialog dialog(this, wxT("WprowadŸ liczbê wierzcho³ków wielok¹ta:"),
+		wxT("Polygon Sides"), wxT("4"));
+	if (dialog.ShowModal() == wxID_OK) {
+		wxString input = dialog.GetValue();
+		long sides;
+		if (input.ToLong(&sides) && sides > 2) {
+			store->currentItem.vertexes_count = sides;
+		}
+		else {
+			wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
+			return;
+		}
+	}
+	else {
+		return;
+	}
+
+	store->editMode = true;
+	store->editID = 5;
+	inscPolyButton->SetBackgroundColour(activeColor);
+	inscPolyButton->Refresh();
 }
 
 

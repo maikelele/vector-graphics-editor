@@ -16,5 +16,4 @@ void Poly::handleClick(wxMouseEvent& event) {
 	else {
 		count++;
 	}
-
 }
