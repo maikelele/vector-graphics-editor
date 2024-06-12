@@ -22,5 +22,6 @@ public:
 	wxColor color;
 	std::vector<wxPoint> points;
 	int id;
+	int vertexes_count;
 };
 
