@@ -43,6 +43,10 @@ void Panel::Draw(wxDC* dc) {
 			dc->SetBrush(*wxTRANSPARENT_BRUSH);
 			dc->DrawRectangle(wxRect(item.points[0], item.points[1]));
 			break;
+		case 4:
+			dc->SetBrush(*wxTRANSPARENT_BRUSH);
+			dc->DrawPolygon(item.points.size(), &item.points[0]);
+			break;
 		}
 	}
 
