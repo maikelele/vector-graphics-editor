@@ -8,6 +8,7 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	simpleLine = SimpleLine(store);
 	bezierCurve = BezierCurve(store);
 	circle = Circle(store);
+	rectangle = Rect(store);
 	this->SetTitle("Vector graphics editor");
 }
 
@@ -24,7 +25,9 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 	case 2:
 		circle.handleClick(event);
 		break;
-
+	case 3:
+		rectangle.handleClick(event);
+		break;
 	default:
 		wxLogMessage("we shouldn't be here");
 	}
@@ -100,7 +103,18 @@ void VGE_GUI::onCircleClick(wxCommandEvent& event)
 
 void VGE_GUI::onRectClick(wxCommandEvent& event)
 {
-	// TODO: Implement onRectClick
+	if (store->editMode) {
+		if (store->editID == 3) {
+			store->editMode = false;
+			rectButton->SetBackgroundColour(wxNullColour);
+			rectButton->Refresh();
+		}
+		return;
+	}
+	store->editMode = true;
+	store->editID = 3;
+	rectButton->SetBackgroundColour(activeColor);
+	rectButton->Refresh();
 }
 
 void VGE_GUI::onPolygonClick(wxCommandEvent& event)
