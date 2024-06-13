@@ -46,6 +46,7 @@ protected:
 	void onRectClick(wxCommandEvent& event);
 	void onPolygonClick(wxCommandEvent& event);
 	void onInscPolyClick(wxCommandEvent& event);
+	void onClear(wxCommandEvent& event);
 public:
 	/** Constructor */
 	VGE_GUI(wxWindow* parent);
@@ -59,6 +60,9 @@ public:
 	Poly polygon;
 	InscribedPolygon inscrPoly;
 	wxColor activeColor = wxColor(RGB(105, 211, 235));
+
+
+
 
 
 

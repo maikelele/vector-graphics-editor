@@ -67,6 +67,15 @@ GUI::GUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint&
 	inscPolyButton = new wxButton( this, wxID_ANY, wxT("Wielokat wpisany"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( inscPolyButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 
+	m_staticline3 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer3->Add( m_staticline3, 0, wxEXPAND | wxALL, 5 );
+
+	clearButton = new wxButton( this, wxID_ANY, wxT("Wyczysc"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( clearButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+	m_staticline4 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer3->Add( m_staticline4, 0, wxEXPAND | wxALL, 5 );
+
 
 	bSizer1->Add( bSizer3, 0, wxEXPAND, 5 );
 
@@ -88,6 +97,7 @@ GUI::GUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint&
 	rectButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onRectClick ), NULL, this );
 	polygonButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onPolygonClick ), NULL, this );
 	inscPolyButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onInscPolyClick ), NULL, this );
+	clearButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onClear ), NULL, this );
 }
 
 GUI::~GUI()
@@ -104,5 +114,6 @@ GUI::~GUI()
 	rectButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onRectClick ), NULL, this );
 	polygonButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onPolygonClick ), NULL, this );
 	inscPolyButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onInscPolyClick ), NULL, this );
+	clearButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onClear ), NULL, this );
 
 }

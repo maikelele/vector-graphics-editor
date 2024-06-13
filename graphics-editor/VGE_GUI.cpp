@@ -322,6 +322,14 @@ void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 	inscPolyButton->Refresh();
 }
 
+void VGE_GUI::onClear(wxCommandEvent& event)
+{
+	if (store->editMode) return;
+	store->items.clear();
+	store->editID = -1;
+	Repaint();
+}
+
 
 void VGE_GUI::Repaint()
 {
