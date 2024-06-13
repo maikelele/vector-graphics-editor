@@ -54,6 +54,7 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event) {
 		return;
 	}
 
+
 	wxTextInputStream text_in(input_stream);
 	store->items.clear();  // Clear existing items
 
@@ -61,47 +62,83 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event) {
 	while (!input_stream.Eof()) {
 		line = text_in.ReadLine();  // Correctly read the full line
 		if (line.IsEmpty()) continue;
-
+		//wxLogMessage(line);
 		wxStringTokenizer tokenizer(line, " ");
-		Item item;
-		long id, colorRGBA;
+		int count = 0;
+		Item item = Item();
+		int id, size, posX, posY;
+		wxUint32 colRGB;
+		wxColor color;
+		while (tokenizer.HasMoreTokens())
+		{
+			wxString token = tokenizer.GetNextToken();
+			//wxLogMessage(token);
 
-		if (tokenizer.HasMoreTokens()) {
-			tokenizer.GetNextToken().ToLong(&id);
-			item.id = static_cast<int>(id);
-		}
-
-		if (tokenizer.HasMoreTokens()) {
-			tokenizer.GetNextToken().ToLong(&colorRGBA);
-			item.color = wxColor(colorRGBA);
-		}
-
-		int countVertices = 0;
-		if (tokenizer.HasMoreTokens()) {
-			tokenizer.GetNextToken().ToInt(&countVertices);
-		}
-
-		for (int i = 0; i < countVertices; i++) {
-			if (!tokenizer.HasMoreTokens()) break;
-			wxString pointData = tokenizer.GetNextToken();
-			long x, y;
-			wxStringTokenizer pointTokenizer(pointData, ",");
-			if (pointTokenizer.HasMoreTokens()) {
-				pointTokenizer.GetNextToken().ToLong(&x);
+			switch (count) {
+			case 0:
+				token.ToInt(&id);
+				item.id = id;
+				break;
+			case 1:
+				token.ToUInt(&colRGB);
+				color.SetRGB(colRGB);
+				item.color = color;
+				break;
+			case 2:
+				token.ToInt(&size);
+				item.vertexes_count = size;
+				break;
+			default:
+				token.ToInt(&posX);
+				token = tokenizer.GetNextToken();
+				token.ToInt(&posY);
+				item.points.push_back(wxPoint(posX, posY));
 			}
-			if (pointTokenizer.HasMoreTokens()) {
-				pointTokenizer.GetNextToken().ToLong(&y);
-			}
-			item.points.emplace_back(x, y);
-		}
 
-		item.vertexes_count = item.points.size();  // Set vertex count
+			count++;
+		}
+		int test = store->items.size();
+		//wxLogMessage(wxString::Format("%d", test));
 		store->items.push_back(item);
+		//if (line.IsEmpty()) continue;
+
+		//wxStringTokenizer tokenizer(line, " ");
+		//Item item;
+		//long id, colorRGBA;
+
+		//if (tokenizer.HasMoreTokens()) {
+		//	tokenizer.GetNextToken().ToLong(&id);
+		//	item.id = static_cast<int>(id);
+		//}
+
+		//if (tokenizer.HasMoreTokens()) {
+		//	tokenizer.GetNextToken().ToLong(&colorRGBA);
+		//	item.color = wxColor(colorRGBA);
+		//}
+
+		//int countVertices = 0;
+		//if (tokenizer.HasMoreTokens()) {
+		//	tokenizer.GetNextToken().ToInt(&countVertices);
+		//}
+
+		//for (int i = 0; i < countVertices; i++) {
+		//	if (!tokenizer.HasMoreTokens()) break;
+		//	wxString pointData = tokenizer.GetNextToken();
+		//	long x, y;
+		//	wxStringTokenizer pointTokenizer(pointData, ",");
+		//	if (pointTokenizer.HasMoreTokens()) {
+		//		pointTokenizer.GetNextToken().ToLong(&x);
+		//	}
+		//	if (pointTokenizer.HasMoreTokens()) {
+		//		pointTokenizer.GetNextToken().ToLong(&y);
+		//	}
+		//	item.points.emplace_back(x, y);
+		//}
+
+		//item.vertexes_count = item.points.size();  // Set vertex count
 	}
 
-	// Trigger a redraw of the panel or frame where the items are displayed
-	Refresh(); // Assumes this method is part of a wxPanel or wxFrame class
-	Update();  // Forces an immediate repaint
+	Repaint();
 }
 
 void VGE_GUI::onFileSave(wxCommandEvent& event) {
@@ -125,7 +162,7 @@ void VGE_GUI::onFileSave(wxCommandEvent& event) {
 	wxTextOutputStream text_out(output_stream);  // Correct usage: Pass the output stream to the constructor
 	for (const auto& item : store->items) {
 		text_out << item.id << " "
-			<< static_cast<int>(item.color.GetRGBA()) << " "
+			<< item.color.GetRGBA()<< " "
 			<< static_cast<int>(item.points.size());  // Casting size_t to long
 		for (const auto& pt : item.points) {
 			text_out << " " << pt.x << " " << pt.y;
@@ -212,28 +249,30 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 	if (store->editMode) {
 		if (store->editID == 4) {
 			store->editMode = false;
+			store->commitCurrentItem();
 			polygonButton->SetBackgroundColour(wxNullColour);
 			polygonButton->Refresh();
+			Repaint();
 		}
 		return;
 	}
 
-	wxTextEntryDialog dialog(this, wxT("WprowadŸ liczbê wierzcho³ków wielok¹ta:"),
-		wxT("Polygon Sides"), wxT("4"));
-	if (dialog.ShowModal() == wxID_OK) {
-		wxString input = dialog.GetValue();
-		long sides;
-		if (input.ToLong(&sides) && sides > 2) {
-			store->currentItem.vertexes_count = sides;
-		}
-		else {
-			wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
-			return;
-		}
-	}
-	else {
-		return; 
-	}
+	//wxTextEntryDialog dialog(this, wxT("WprowadŸ liczbê wierzcho³ków wielok¹ta:"),
+	//	wxT("Polygon Sides"), wxT("4"));
+	//if (dialog.ShowModal() == wxID_OK) {
+	//	wxString input = dialog.GetValue();
+	//	long sides;
+	//	if (input.ToLong(&sides) && sides > 2) {
+	//		store->currentItem.vertexes_count = sides;
+	//	}
+	//	else {
+	//		wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
+	//		return;
+	//	}
+	//}
+	//else {
+	//	return; 
+	//}
 
 	store->editMode = true;
 	store->editID = 4;
@@ -252,8 +291,8 @@ void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 		return;
 	}
 
-	wxTextEntryDialog dialog(this, wxT("WprowadŸ liczbê wierzcho³ków wielok¹ta:"),
-		wxT("Polygon Sides"), wxT("4"));
+	wxTextEntryDialog dialog(this, wxT("Wprowadz liczbe wierzcholkow wielakata:"),
+	wxT("Polygon Sides"), wxT("4"));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxString input = dialog.GetValue();
 		long sides;
@@ -261,7 +300,7 @@ void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 			store->currentItem.vertexes_count = sides;
 		}
 		else {
-			wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
+			wxMessageBox("Prosze wprowadzic liczbe wieksza od 2:", "Invalid Input", wxOK | wxICON_ERROR);
 			return;
 		}
 	}
