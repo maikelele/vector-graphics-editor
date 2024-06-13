@@ -77,6 +77,7 @@ GUI::GUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint&
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( wxEVT_SIZE, wxSizeEventHandler( GUI::onResize ) );
 	m_panel1->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( GUI::onPanelClick ), NULL, this );
 	loadButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onFileLoad ), NULL, this );
 	saveButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onFileSave ), NULL, this );
@@ -92,6 +93,7 @@ GUI::GUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint&
 GUI::~GUI()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_SIZE, wxSizeEventHandler( GUI::onResize ) );
 	m_panel1->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( GUI::onPanelClick ), NULL, this );
 	loadButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onFileLoad ), NULL, this );
 	saveButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUI::onFileSave ), NULL, this );

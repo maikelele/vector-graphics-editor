@@ -14,6 +14,12 @@ VGE_GUI::VGE_GUI(wxWindow* parent)
 	this->SetTitle("Vector graphics editor");
 }
 
+void VGE_GUI::onResize(wxSizeEvent& event)
+{
+	Repaint();
+	event.Skip();
+}
+
 void VGE_GUI::onPanelClick(wxMouseEvent& event)
 {
 	if (!store->editMode) return;
@@ -42,7 +48,8 @@ void VGE_GUI::onPanelClick(wxMouseEvent& event)
 	Repaint();
 }
 
-void VGE_GUI::onFileLoad(wxCommandEvent& event) {
+void VGE_GUI::onFileLoad(wxCommandEvent& event)
+{
 	wxFileDialog openFileDialog(this, _("Open Data File"), "", "",
 		"Text Files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (openFileDialog.ShowModal() == wxID_CANCEL)
@@ -97,7 +104,7 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event) {
 
 			count++;
 		}
-		int test = store->items.size();
+		//int test = store->items.size();
 		//wxLogMessage(wxString::Format("%d", test));
 		store->items.push_back(item);
 		//if (line.IsEmpty()) continue;
@@ -141,7 +148,8 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event) {
 	Repaint();
 }
 
-void VGE_GUI::onFileSave(wxCommandEvent& event) {
+void VGE_GUI::onFileSave(wxCommandEvent& event)
+{
 	wxFileDialog saveFileDialog(this, _("Save Data"), "", "",
 		"Text Files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (saveFileDialog.ShowModal() == wxID_CANCEL)
@@ -162,7 +170,7 @@ void VGE_GUI::onFileSave(wxCommandEvent& event) {
 	wxTextOutputStream text_out(output_stream);  // Correct usage: Pass the output stream to the constructor
 	for (const auto& item : store->items) {
 		text_out << item.id << " "
-			<< item.color.GetRGBA()<< " "
+			<< item.color.GetRGBA() << " "
 			<< static_cast<int>(item.points.size());  // Casting size_t to long
 		for (const auto& pt : item.points) {
 			text_out << " " << pt.x << " " << pt.y;
@@ -257,7 +265,7 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 		return;
 	}
 
-	//wxTextEntryDialog dialog(this, wxT("WprowadŸ liczbê wierzcho³ków wielok¹ta:"),
+	//wxTextEntryDialog dialog(this, wxT("WprowadÂŸ liczbÃª wierzchoÂ³kÃ³w wielokÂ¹ta:"),
 	//	wxT("Polygon Sides"), wxT("4"));
 	//if (dialog.ShowModal() == wxID_OK) {
 	//	wxString input = dialog.GetValue();
@@ -266,12 +274,12 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 	//		store->currentItem.vertexes_count = sides;
 	//	}
 	//	else {
-	//		wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
+	//		wxMessageBox("ProszÃª wprowadziÃ¦ liczbÃª wiÃªkszÂ¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
 	//		return;
 	//	}
 	//}
 	//else {
-	//	return; 
+	//	return;
 	//}
 
 	store->editMode = true;
@@ -292,7 +300,7 @@ void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 	}
 
 	wxTextEntryDialog dialog(this, wxT("Wprowadz liczbe wierzcholkow wielakata:"),
-	wxT("Polygon Sides"), wxT("4"));
+		wxT("Polygon Sides"), wxT("4"));
 	if (dialog.ShowModal() == wxID_OK) {
 		wxString input = dialog.GetValue();
 		long sides;
