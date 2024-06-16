@@ -49,7 +49,6 @@ void Panel::Draw(wxDC* dc) {
 			break;
 		case 5:
 			dc->SetBrush(*wxTRANSPARENT_BRUSH);
-			dc->DrawCircle(item.points[0], pointDistance(item.points[0], item.points[1]));
 			dc->DrawPolygon(item.points.size() - 2, &item.points[2]);
 
 			break;

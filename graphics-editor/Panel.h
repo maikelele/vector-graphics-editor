@@ -13,4 +13,3 @@ private:
 	std::shared_ptr<GlobalStorage> store;
 	int defaultPenWidth;
 };
-
