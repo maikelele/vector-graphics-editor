@@ -7,6 +7,7 @@ class GlobalStorage
 {
 public:
 	void commitCurrentItem();
+	void clearCurrentItem();
 
 	std::vector<Item> items; // vector of Items containing points(wxPoint) and colour that define objects to draw 
 	bool editMode = false;

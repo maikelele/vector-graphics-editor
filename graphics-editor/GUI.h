@@ -49,8 +49,12 @@ class GUI : public wxFrame
 		wxButton* rectButton;
 		wxButton* polygonButton;
 		wxButton* inscPolyButton;
+		wxStaticLine* m_staticline3;
+		wxButton* clearButton;
+		wxStaticLine* m_staticline4;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void onResize( wxSizeEvent& event ) { event.Skip(); }
 		virtual void onPanelClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void onFileLoad( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onFileSave( wxCommandEvent& event ) { event.Skip(); }
@@ -61,6 +65,7 @@ class GUI : public wxFrame
 		virtual void onRectClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onPolygonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void onInscPolyClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void onClear( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:

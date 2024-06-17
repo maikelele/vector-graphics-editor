@@ -45,11 +45,10 @@ void Panel::Draw(wxDC* dc) {
 			break;
 		case 4:
 			dc->SetBrush(*wxTRANSPARENT_BRUSH);
-			dc->DrawPolygon(item.points.size(), &item.points[0]);
+			dc->DrawPolygon(vectorToWxPointList(item.points));
 			break;
 		case 5:
 			dc->SetBrush(*wxTRANSPARENT_BRUSH);
-			dc->DrawCircle(item.points[0], pointDistance(item.points[0], item.points[1]));
 			dc->DrawPolygon(item.points.size() - 2, &item.points[2]);
 
 			break;
@@ -57,11 +56,15 @@ void Panel::Draw(wxDC* dc) {
 	}
 
 	// Draw the current object
+	dc->SetPen(wxPen(store->currentColor, defaultPenWidth));
 	switch (store->editID) {
 	case 1:
-		dc->SetPen(wxPen(store->currentColor, defaultPenWidth));
 		if(store->currentItem.points.size() >= 2)
 			dc->DrawSpline(vectorToWxPointList(store->currentItem.points));
+		break;
+	case 4:
+		dc->SetBrush(*wxTRANSPARENT_BRUSH);
+		dc->DrawPolygon(vectorToWxPointList(store->currentItem.points));
 		break;
 	}
 
