@@ -69,7 +69,6 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event)
 	while (!input_stream.Eof()) {
 		line = text_in.ReadLine();  // Correctly read the full line
 		if (line.IsEmpty()) continue;
-		//wxLogMessage(line);
 		wxStringTokenizer tokenizer(line, " ");
 		int count = 0;
 		Item item = Item();
@@ -79,7 +78,6 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event)
 		while (tokenizer.HasMoreTokens())
 		{
 			wxString token = tokenizer.GetNextToken();
-			//wxLogMessage(token);
 
 			switch (count) {
 			case 0:
@@ -104,45 +102,7 @@ void VGE_GUI::onFileLoad(wxCommandEvent& event)
 
 			count++;
 		}
-		//int test = store->items.size();
-		//wxLogMessage(wxString::Format("%d", test));
 		store->items.push_back(item);
-		//if (line.IsEmpty()) continue;
-
-		//wxStringTokenizer tokenizer(line, " ");
-		//Item item;
-		//long id, colorRGBA;
-
-		//if (tokenizer.HasMoreTokens()) {
-		//	tokenizer.GetNextToken().ToLong(&id);
-		//	item.id = static_cast<int>(id);
-		//}
-
-		//if (tokenizer.HasMoreTokens()) {
-		//	tokenizer.GetNextToken().ToLong(&colorRGBA);
-		//	item.color = wxColor(colorRGBA);
-		//}
-
-		//int countVertices = 0;
-		//if (tokenizer.HasMoreTokens()) {
-		//	tokenizer.GetNextToken().ToInt(&countVertices);
-		//}
-
-		//for (int i = 0; i < countVertices; i++) {
-		//	if (!tokenizer.HasMoreTokens()) break;
-		//	wxString pointData = tokenizer.GetNextToken();
-		//	long x, y;
-		//	wxStringTokenizer pointTokenizer(pointData, ",");
-		//	if (pointTokenizer.HasMoreTokens()) {
-		//		pointTokenizer.GetNextToken().ToLong(&x);
-		//	}
-		//	if (pointTokenizer.HasMoreTokens()) {
-		//		pointTokenizer.GetNextToken().ToLong(&y);
-		//	}
-		//	item.points.emplace_back(x, y);
-		//}
-
-		//item.vertexes_count = item.points.size();  // Set vertex count
 	}
 
 	Repaint();

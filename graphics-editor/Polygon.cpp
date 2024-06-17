@@ -8,12 +8,4 @@ void Poly::handleClick(wxMouseEvent& event) {
 	int x = event.GetX();
 	int y = event.GetY();
 	store->currentItem.Add(wxPoint(x, y));
-
-	//if (count == store->currentItem.vertexes_count - 1) {
-	//	store->commitCurrentItem();
-	//	count = 0;
-	//}
-	//else {
-	//	count++;
-	//}
 }
