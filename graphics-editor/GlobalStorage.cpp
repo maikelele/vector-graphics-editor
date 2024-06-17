@@ -6,3 +6,9 @@ void GlobalStorage::commitCurrentItem() {
 	items.push_back(currentItem);
 	currentItem = Item();
 }
+
+void GlobalStorage::clearCurrentItem() {
+	editMode = false;
+	editID = -1;
+	currentItem = Item();
+}

@@ -188,7 +188,7 @@ void VGE_GUI::onLineClick(wxCommandEvent& event)
 {
 	if (store->editMode) {
 		if (store->editID == 0) {
-			store->editMode = false;
+			store->clearCurrentItem();
 			lineButton->SetBackgroundColour(wxNullColour);
 			lineButton->Refresh();
 		}
@@ -223,7 +223,7 @@ void VGE_GUI::onCircleClick(wxCommandEvent& event)
 {
 	if (store->editMode) {
 		if (store->editID == 2) {
-			store->editMode = false;
+			store->clearCurrentItem();
 			circleButton->SetBackgroundColour(wxNullColour);
 			circleButton->Refresh();
 		}
@@ -239,7 +239,7 @@ void VGE_GUI::onRectClick(wxCommandEvent& event)
 {
 	if (store->editMode) {
 		if (store->editID == 3) {
-			store->editMode = false;
+			store->clearCurrentItem();
 			rectButton->SetBackgroundColour(wxNullColour);
 			rectButton->Refresh();
 		}
@@ -265,22 +265,6 @@ void VGE_GUI::onPolygonClick(wxCommandEvent& event)
 		return;
 	}
 
-	//wxTextEntryDialog dialog(this, wxT("Wprowad liczbê wierzcho³ków wielok¹ta:"),
-	//	wxT("Polygon Sides"), wxT("4"));
-	//if (dialog.ShowModal() == wxID_OK) {
-	//	wxString input = dialog.GetValue();
-	//	long sides;
-	//	if (input.ToLong(&sides) && sides > 2) {
-	//		store->currentItem.vertexes_count = sides;
-	//	}
-	//	else {
-	//		wxMessageBox("Proszê wprowadziæ liczbê wiêksz¹ od 2", "Invalid Input", wxOK | wxICON_ERROR);
-	//		return;
-	//	}
-	//}
-	//else {
-	//	return;
-	//}
 
 	store->editMode = true;
 	store->editID = 4;
@@ -292,7 +276,7 @@ void VGE_GUI::onInscPolyClick(wxCommandEvent& event)
 {
 	if (store->editMode) {
 		if (store->editID == 5) {
-			store->editMode = false;
+			store->clearCurrentItem();
 			inscPolyButton->SetBackgroundColour(wxNullColour);
 			inscPolyButton->Refresh();
 		}
